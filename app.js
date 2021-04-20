@@ -19,6 +19,7 @@ db.serialize(() => {
         "id"	INTEGER,
         "username"	TEXT NOT NULL UNIQUE,
         "password"	TEXT NOT NULL,
+        "token" TEXT,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
    db.run("DROP TABLE IF EXISTS recipes");

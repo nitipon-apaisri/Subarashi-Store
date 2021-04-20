@@ -26,16 +26,26 @@ function register(username, password) {
    });
 }
 
-function auth(username) {
+function auth(username, token) {
    return new Promise((resolve, reject) => {
       db.get(
-         `SELECT * FROM users WHERE username LIKE ?`,
-         [username],
-         function (err, row) {
+         `UPDATE users SET token = ? WHERE username LIKE ?`,
+         [token, username],
+         function (err) {
             if (err) {
                reject();
             } else {
-               resolve(row);
+               db.get(
+                  `SELECT * FROM users WHERE username LIKE ?`,
+                  [username],
+                  (err, row) => {
+                     if (err) {
+                        reject();
+                     } else {
+                        resolve(row);
+                     }
+                  }
+               );
             }
          }
       );
