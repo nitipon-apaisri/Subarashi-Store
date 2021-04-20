@@ -13,7 +13,20 @@ const register = async (req, res, next) => {
          res.status(403).json({ message: "Invalid Body" });
       });
 };
-
+const auth = async (req, res, next) => {
+   const { username, password } = req.body;
+   await userModel.auth(username).then((row) => {
+      bcrypt.compare(password, row.password, function (err, response) {
+         if (response === true) {
+            res.json({ data: row });
+         } else {
+            res.json({ message: "Invalid Body" });
+         }
+      });
+      next();
+   });
+};
 module.exports = {
    register,
+   auth,
 };

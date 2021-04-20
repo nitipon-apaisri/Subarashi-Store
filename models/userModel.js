@@ -26,6 +26,22 @@ function register(username, password) {
    });
 }
 
+function auth(username) {
+   return new Promise((resolve, reject) => {
+      db.get(
+         `SELECT * FROM users WHERE username LIKE ?`,
+         [username],
+         function (err, row) {
+            if (err) {
+               reject();
+            } else {
+               resolve(row);
+            }
+         }
+      );
+   });
+}
 module.exports = {
    register,
+   auth,
 };
