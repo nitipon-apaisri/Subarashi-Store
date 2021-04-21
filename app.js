@@ -36,6 +36,7 @@ db.serialize(() => {
    db.run(`CREATE TABLE "ingredients" (
         "id"	INTEGER,
         "name"	TEXT NOT NULL UNIQUE,
+        "type" TEXT NOT NULL,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
 });

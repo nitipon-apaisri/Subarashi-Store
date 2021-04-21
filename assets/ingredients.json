@@ -1,3 +1,6 @@
 {
-   "ingredients": ["Lime", "Onion"]
+   "ingredients": [
+      { "name": "Lime", "type": 1 },
+      { "name": "Onion", "type": 2 }
+   ]
 }
