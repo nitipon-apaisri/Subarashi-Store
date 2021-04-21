@@ -28,7 +28,6 @@ db.serialize(() => {
    db.run(`CREATE TABLE "recipes" (
         "id"	INTEGER,
         "name"	TEXT NOT NULL UNIQUE,
-        "ingredients"	TEXT NOT NULL,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
    db.run("DROP TABLE IF EXISTS ingredients");
@@ -37,5 +36,13 @@ db.serialize(() => {
         "name"	TEXT NOT NULL UNIQUE,
         "type" NUMBER NOT NULL,
         PRIMARY KEY("id" AUTOINCREMENT)
+        )`);
+   db.run("DROP TABLE IF EXISTS recipe_ingredients");
+   db.run(`CREATE TABLE "recipe_ingredients" (
+        "recipeId"	INTEGER,
+        "name"	TEXT,
+        "quantity" NUMBER,
+        "unit" TEXT,
+        FOREIGN KEY("recipeId") REFERENCES "recipes"("id")
     )`);
 });
