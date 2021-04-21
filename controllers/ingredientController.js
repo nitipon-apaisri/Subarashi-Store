@@ -11,6 +11,13 @@ const addIngredients = async (req, res) => {
    }
 };
 
+const getAllIngredient = async (req, res) => {
+   await ingredientsModel.getAllIngredient().then((rows) => {
+      res.json({ message: "Success", data: rows });
+   });
+};
+
 module.exports = {
    addIngredients,
+   getAllIngredient,
 };
