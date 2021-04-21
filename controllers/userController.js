@@ -14,19 +14,19 @@ const register = async (req, res, next) => {
          res.status(403).json({ message: "Invalid Body" });
       });
 };
-const auth = async (req, res, next) => {
+const auth = async (req, res) => {
    const { username, password } = req.body;
    const payload = { username: username };
    const token = jwt.sign(payload, "secret");
    await userModel.auth(username, token).then((row) => {
       bcrypt.compare(password, row.password, function (err, response) {
          if (response === true) {
+            console.log(row);
             res.json({ data: row });
          } else {
             res.json({ message: "Invalid Body" });
          }
       });
-      next();
    });
 };
 module.exports = {
