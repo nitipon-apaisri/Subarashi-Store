@@ -1,6 +1,8 @@
 {
    "ingredients": [
       { "name": "Lime", "type": 1 },
-      { "name": "Onion", "type": 2 }
+      { "name": "Onion", "type": 2 },
+      { "name": "Tomato", "type": 1 },
+      { "name": "Potato", "type": 2 }
    ]
 }

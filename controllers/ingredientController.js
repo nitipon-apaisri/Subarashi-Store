@@ -17,7 +17,16 @@ const getAllIngredient = async (req, res) => {
    });
 };
 
+const getIngredientsByType = async (req, res) => {
+   const { type } = req.params;
+   await ingredientsModel.getIngredientsByType(type).then((rows) => {
+      console.log(type);
+      res.json({ data: rows });
+   });
+};
+
 module.exports = {
    addIngredients,
    getAllIngredient,
+   getIngredientsByType,
 };

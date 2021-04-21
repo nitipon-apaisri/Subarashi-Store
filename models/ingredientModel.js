@@ -22,7 +22,19 @@ function getAllIngredient() {
       });
    });
 }
+function getIngredientsByType(type) {
+   return new Promise((resolve, reject) => {
+      db.all(`SELECT * FROM ingredients WHERE type = ?`, [type], function (err, rows) {
+         if (err) {
+            reject();
+         } else {
+            resolve(rows);
+         }
+      });
+   });
+}
 module.exports = {
    addIngredients,
    getAllIngredient,
+   getIngredientsByType,
 };
