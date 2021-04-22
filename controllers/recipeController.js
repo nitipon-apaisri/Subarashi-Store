@@ -17,30 +17,35 @@ const createRecipe = async (req, res) => {
 };
 
 const listAllRecipes = async (req, res) => {
-   // let obj = { ingredients: [] };
-   // await recipeModel
-   //    .listRecipeIngredients()
-   //    .then((rows) => {
-   //       for (x in rows) {
-   //          let ingredientsObj = { title: "", quantity: 0, unit: "" };
-   //          obj.ingredients.push(ingredientsObj);
-   //          obj.ingredients[x].title = rows[x].title;
-   //          obj.ingredients[x].quantity = rows[x].quantity;
-   //          obj.ingredients[x].unit = rows[x].unit;
-   //       }
-   //    })
-   // .catch((err) => {
-   //    console.log(err);
-   // });
    await recipeModel.listAllRecipes().then((rows) => {
       res.json({ data: rows });
    });
 };
 
-// const listRecipeById = async (req,res) => {
-
-// }
+const listRecipeById = async (req, res) => {
+   let obj = { ingredients: [] };
+   const { id } = req.params;
+   await recipeModel
+      .listRecipeIngredients(id)
+      .then((rows) => {
+         for (x in rows) {
+            let ingredientsObj = { title: "", quantity: 0, unit: "" };
+            obj.ingredients.push(ingredientsObj);
+            obj.ingredients[x].title = rows[x].title;
+            obj.ingredients[x].quantity = rows[x].quantity;
+            obj.ingredients[x].unit = rows[x].unit;
+         }
+      })
+      .catch((err) => {
+         console.log(err);
+      });
+   await recipeModel.listRecipeById(id).then((row) => {
+      Object.assign(row[0], obj);
+      res.json({ data: row });
+   });
+};
 module.exports = {
    createRecipe,
    listAllRecipes,
+   listRecipeById,
 };

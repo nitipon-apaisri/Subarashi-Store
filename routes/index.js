@@ -15,4 +15,5 @@ router.get("/ingredients", ingredientsController.getAllIngredient);
 router.post("/recipes", recipeController.createRecipe);
 // router.post("/recipes", authUser.userAuth, recipeController.createRecipe);
 router.get("/recipes", recipeController.listAllRecipes);
+router.get("/recipes/:id", recipeController.listRecipeById);
 module.exports = router;

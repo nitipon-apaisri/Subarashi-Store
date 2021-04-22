@@ -49,10 +49,23 @@ function listAllRecipes() {
       });
    });
 }
-function listRecipeIngredients() {
+
+function listRecipeById(id) {
+   return new Promise((resolve, reject) => {
+      db.all(`SELECT * FROM recipes WHERE id = ?`, [id], function (err, row) {
+         if (err) {
+            reject();
+         } else {
+            resolve(row);
+         }
+      });
+   });
+}
+function listRecipeIngredients(id) {
    return new Promise((resolve, reject) => {
       db.all(
-         `SELECT * FROM recipe_ingredients WHERE recipeId = recipeId`,
+         `SELECT * FROM recipe_ingredients WHERE recipeId = ?`,
+         [id],
          function (err, rows) {
             if (err) {
                reject();
@@ -68,4 +81,5 @@ module.exports = {
    addIngredientsToRecipe,
    listAllRecipes,
    listRecipeIngredients,
+   listRecipeById,
 };
