@@ -52,7 +52,7 @@ function listAllRecipes() {
 
 function listRecipeById(id) {
    return new Promise((resolve, reject) => {
-      db.all(`SELECT * FROM recipes WHERE id = ?`, [id], function (err, row) {
+      db.get(`SELECT * FROM recipes WHERE id = ?`, [id], function (err, row) {
          if (err) {
             reject();
          } else {
@@ -61,6 +61,7 @@ function listRecipeById(id) {
       });
    });
 }
+
 function listRecipeIngredients(id) {
    return new Promise((resolve, reject) => {
       db.all(
@@ -76,10 +77,30 @@ function listRecipeIngredients(id) {
       );
    });
 }
+
+function updateRecipe(id, name) {
+   return new Promise((resolve, reject) => {
+      db.run(`UPDATE recipes SET name = ? WHERE id = ?`, [name, id], function (err) {
+         if (err) {
+            reject();
+         } else {
+            db.get(`SELECT * FROM recipes WHERE id = ?`, [id], function (err, row) {
+               if (err) {
+                  reject();
+               } else {
+                  resolve(row);
+               }
+            });
+         }
+      });
+   });
+}
+
 module.exports = {
    createRecipe,
    addIngredientsToRecipe,
    listAllRecipes,
    listRecipeIngredients,
    listRecipeById,
+   updateRecipe,
 };

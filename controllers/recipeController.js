@@ -39,13 +39,27 @@ const listRecipeById = async (req, res) => {
       .catch((err) => {
          console.log(err);
       });
-   await recipeModel.listRecipeById(id).then((row) => {
-      Object.assign(row[0], obj);
-      res.json({ data: row });
+   await recipeModel
+      .listRecipeById(id)
+      .then((row) => {
+         Object.assign(row, obj);
+         res.json({ data: row });
+      })
+      .catch(() => {
+         res.status(404).json({ message: "Recipe not found" });
+      });
+};
+
+const updateRecipe = async (req, res) => {
+   const { id } = req.params;
+   const { name } = req.body;
+   await recipeModel.updateRecipe(id, name).then((row) => {
+      res.json({ message: "Update success", latest: row });
    });
 };
 module.exports = {
    createRecipe,
    listAllRecipes,
    listRecipeById,
+   updateRecipe,
 };
