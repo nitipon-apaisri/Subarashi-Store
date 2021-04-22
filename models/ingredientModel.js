@@ -11,6 +11,7 @@ function addIngredients(name) {
       });
    });
 }
+
 function getAllIngredient() {
    return new Promise((resolve, reject) => {
       db.all(`SELECT * FROM ingredients`, (err, rows) => {

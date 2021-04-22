@@ -1,6 +1,7 @@
 const userModel = require("../models/userModel");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+
 const register = async (req, res, next) => {
    const { username, password } = req.body;
    const hashing = bcrypt.hashSync(password, 10);
@@ -14,6 +15,7 @@ const register = async (req, res, next) => {
          res.status(403).json({ message: "Invalid Body" });
       });
 };
+
 const auth = async (req, res) => {
    const { username, password } = req.body;
    const payload = { username: username };
@@ -28,6 +30,7 @@ const auth = async (req, res) => {
       });
    });
 };
+
 module.exports = {
    register,
    auth,

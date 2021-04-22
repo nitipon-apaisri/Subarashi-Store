@@ -51,6 +51,7 @@ function auth(username, token) {
       );
    });
 }
+
 module.exports = {
    register,
    auth,

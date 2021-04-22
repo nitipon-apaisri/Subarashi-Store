@@ -10,11 +10,11 @@ router.post("/register", userController.register);
 router.post("/auth", userController.auth);
 //Endpoint ingredients
 router.get("/ingredients", ingredientsController.getAllIngredient);
-
 //Endpoint recipes
 router.post("/recipes", recipeController.createRecipe);
+// router.post("/recipes", authUser.userAuth, recipeController.createRecipe);
 router.get("/recipes", recipeController.listAllRecipes);
-router.get("/recipes/:id", recipeController.listRecipeById);
-router.patch("/recipes/:id", recipeController.updateRecipe);
-router.delete("/recipes/:id", recipeController.deleteRecipe);
+router.get("/recipes/:id", authUser.userAuth, recipeController.listRecipeById);
+router.patch("/recipes/:id", authUser.userAuth, recipeController.updateRecipe);
+router.delete("/recipes/:id", authUser.userAuth, recipeController.deleteRecipe);
 module.exports = router;
