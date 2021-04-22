@@ -96,6 +96,28 @@ function updateRecipe(id, name) {
    });
 }
 
+function deleteRecipe(id) {
+   return new Promise((resolve, reject) => {
+      db.run(`DELETE FROM recipes WHERE id = ?`, [id], function (err) {
+         if (err) {
+            reject();
+         } else {
+            db.run(
+               `DELETE FROM recipe_ingredients WHERE recipeId = ?`,
+               [id],
+               function (err) {
+                  if (err) {
+                     reject();
+                  } else {
+                     resolve();
+                  }
+               }
+            );
+         }
+      });
+   });
+}
+
 module.exports = {
    createRecipe,
    addIngredientsToRecipe,
@@ -103,4 +125,5 @@ module.exports = {
    listRecipeIngredients,
    listRecipeById,
    updateRecipe,
+   deleteRecipe,
 };

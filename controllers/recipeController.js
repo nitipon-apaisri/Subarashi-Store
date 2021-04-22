@@ -57,9 +57,22 @@ const updateRecipe = async (req, res) => {
       res.json({ message: "Update success", latest: row });
    });
 };
+
+const deleteRecipe = async (req, res) => {
+   const { id } = req.params;
+   await recipeModel
+      .deleteRecipe(id)
+      .then(() => {
+         res.json({ message: `Recipe id ${id} has been delete` });
+      })
+      .catch(() => {
+         res.status(404).json({ message: `Recipe id ${id} not found` });
+      });
+};
 module.exports = {
    createRecipe,
    listAllRecipes,
    listRecipeById,
    updateRecipe,
+   deleteRecipe,
 };

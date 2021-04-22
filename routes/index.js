@@ -13,8 +13,8 @@ router.get("/ingredients", ingredientsController.getAllIngredient);
 
 //Endpoint recipes
 router.post("/recipes", recipeController.createRecipe);
-// router.post("/recipes", authUser.userAuth, recipeController.createRecipe);
 router.get("/recipes", recipeController.listAllRecipes);
 router.get("/recipes/:id", recipeController.listRecipeById);
 router.patch("/recipes/:id", recipeController.updateRecipe);
+router.delete("/recipes/:id", recipeController.deleteRecipe);
 module.exports = router;
