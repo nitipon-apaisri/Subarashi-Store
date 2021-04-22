@@ -21,11 +21,12 @@ function createRecipe(name) {
       });
    });
 }
-function addIngredientsToRecipe(recipeId, name, quantity, unit) {
+
+function addIngredientsToRecipe(recipeId, title, quantity, unit) {
    return new Promise((resolve, reject) => {
       db.run(
-         `INSERT INTO recipe_ingredients(recipeId, name, quantity, unit) VALUES(?,?,?,?)`,
-         [recipeId, name, quantity, unit],
+         `INSERT INTO recipe_ingredients(recipeId, title, quantity, unit) VALUES(?,?,?,?)`,
+         [recipeId, title, quantity, unit],
          function (err) {
             if (err) {
                reject();
@@ -37,7 +38,34 @@ function addIngredientsToRecipe(recipeId, name, quantity, unit) {
    });
 }
 
+function listAllRecipes() {
+   return new Promise((resolve, reject) => {
+      db.all(`SELECT * FROM recipes`, function (err, rows) {
+         if (err) {
+            reject();
+         } else {
+            resolve(rows);
+         }
+      });
+   });
+}
+function listRecipeIngredients() {
+   return new Promise((resolve, reject) => {
+      db.all(
+         `SELECT * FROM recipe_ingredients WHERE recipeId = recipeId`,
+         function (err, rows) {
+            if (err) {
+               reject();
+            } else {
+               resolve(rows);
+            }
+         }
+      );
+   });
+}
 module.exports = {
    createRecipe,
    addIngredientsToRecipe,
+   listAllRecipes,
+   listRecipeIngredients,
 };

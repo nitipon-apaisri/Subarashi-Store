@@ -21,7 +21,6 @@ const auth = async (req, res) => {
    await userModel.auth(username, token).then((row) => {
       bcrypt.compare(password, row.password, function (err, response) {
          if (response === true) {
-            console.log(row);
             res.json({ data: row });
          } else {
             res.json({ message: "Invalid Body" });
