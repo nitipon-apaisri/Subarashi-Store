@@ -28,6 +28,7 @@ db.serialize(() => {
    db.run(`CREATE TABLE "recipes" (
         "id"	INTEGER,
         "name"	TEXT NOT NULL UNIQUE,
+        "category" TEXT NOT NULL,
         PRIMARY KEY("id" AUTOINCREMENT)
     )`);
    db.run("DROP TABLE IF EXISTS ingredients");

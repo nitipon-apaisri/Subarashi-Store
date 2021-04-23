@@ -1,24 +1,28 @@
 const db = require("./connection");
 
-function createRecipe(name) {
+function createRecipe(name, category) {
    return new Promise((resolve, reject) => {
-      db.run(`INSERT INTO recipes(name) VALUES(?)`, [name], function (err) {
-         if (err) {
-            reject();
-         } else {
-            db.get(
-               `SELECT * FROM recipes WHERE id = ?`,
-               [this.lastID],
-               function (err, row) {
-                  if (err) {
-                     reject();
-                  } else {
-                     resolve(row);
+      db.run(
+         `INSERT INTO recipes(name,category) VALUES(?,?)`,
+         [name, category],
+         function (err) {
+            if (err) {
+               reject();
+            } else {
+               db.get(
+                  `SELECT * FROM recipes WHERE id = ?`,
+                  [this.lastID],
+                  function (err, row) {
+                     if (err) {
+                        reject();
+                     } else {
+                        resolve(row);
+                     }
                   }
-               }
-            );
+               );
+            }
          }
-      });
+      );
    });
 }
 
@@ -59,6 +63,22 @@ function listRecipeById(id) {
             resolve(row);
          }
       });
+   });
+}
+
+function listAllRecipesByCategory(category) {
+   return new Promise((resolve, reject) => {
+      db.get(
+         `SELECT * FROM recipes WHERE category = ?`,
+         [category],
+         function (err, rows) {
+            if (err) {
+               reject();
+            } else {
+               resolve(rows);
+            }
+         }
+      );
    });
 }
 
@@ -124,6 +144,7 @@ module.exports = {
    listAllRecipes,
    listRecipeIngredients,
    listRecipeById,
+   listAllRecipesByCategory,
    updateRecipe,
    deleteRecipe,
 };

@@ -1,9 +1,9 @@
 const recipeModel = require("../models/recipeModel");
 
 const createRecipe = async (req, res) => {
-   const { name, ingredients } = req.body;
+   const { name, ingredients, category } = req.body;
    await recipeModel
-      .createRecipe(name)
+      .createRecipe(name, category)
       .then((row) => {
          // console.log(req.user);
          res.json({ message: `Created ${name} recipe`, data: row });
@@ -18,6 +18,12 @@ const createRecipe = async (req, res) => {
 
 const listAllRecipes = async (req, res) => {
    await recipeModel.listAllRecipes().then((rows) => {
+      res.json({ data: rows });
+   });
+};
+const listAllRecipesByCategory = async (req, res) => {
+   const { category } = req.params;
+   await recipeModel.listAllRecipes(category).then((rows) => {
       res.json({ data: rows });
    });
 };
@@ -73,6 +79,7 @@ const deleteRecipe = async (req, res) => {
 module.exports = {
    createRecipe,
    listAllRecipes,
+   listAllRecipesByCategory,
    listRecipeById,
    updateRecipe,
    deleteRecipe,
