@@ -1,6 +1,8 @@
 # Subarashi Store 📦
 
-## ENDPOINT Register
+## EndPoint Register
+
+### Create
 
 ```
 post /register
@@ -23,7 +25,9 @@ Create a new user, hashing password, and stored on the database
 | --- | -------- | --------- | ----- |
 | 1   | example  | 123456789 | Null  |
 
-## ENDPOINT Authentication
+## EndPoint Authentication
+
+### Create
 
 ```
 post /auth
@@ -46,19 +50,24 @@ Sign in, create json web token, and stored the token on the database
 | --- | -------- | --------- | -------------- |
 | 1   | example  | 123456789 | eyJhbGciOiJ... |
 
-## ENDPOINT Ingredients
+## EndPoint Ingredients
+
+### Create
 
 ```
 post /ingredients
 ```
+
 ### Database
 
-| id  | name |
-| --- | ---- |
+| id  | name      |
+| --- | --------- |
 | 1   | Asparagus |
-| ... | ... |
+| ... | ...       |
 
 Create ingredients database from seed \* ingredients.json
+
+### Read
 
 ```
 get /ingredients
@@ -66,7 +75,15 @@ get /ingredients
 
 List all the ingredients on the database
 
-### Response body
+### Request body
+
+```
+-
+```
+
+### Result
+
+### Read
 
 ```
 "data": [
@@ -80,11 +97,21 @@ List all the ingredients on the database
         }
     ]
 ```
-### \* Query params
+
+### Read \* Query params
+
 ```
 get /ingredients/page/:page
 ```
-### Response body
+
+### Request body
+
+```
+-
+```
+
+### Result
+
 ```
 "data": [
         {
@@ -107,56 +134,181 @@ get /ingredients/page/:page
 
 List all the ingredients on the database by page \* 10 items per page
 
-## ENDPOINT Recipes
+## EndPoint Recipes
+
+### Create
 
 ```
 post /recipes
 ```
+
 ### Request body
 
 ```
 {
-    "name": "The World",
-    "category": "soup",
+    "name": "Pad Thai with Shrimp",
+    "category": "noodle, main dish"
     "ingredients": [
         {
-            "recipeId": 1,
-            "title": "Lime",
+            "title": "Rice noodle",
+            "quantity": 150,
+            "unit": "g",
+            "art": "12348542"
+        },
+        {
+            "title": "Shrimp",
+            "quantity": 50,
+            "unit": "g",
+            "art": "4548754"
+        },
+        {
+            "title": "Pad Thai sauce",
             "quantity": 2,
-            "unit": "price(s)",
-            "art": "123456879"
-        },
-        {
-            "recipeId": 1,
-            "title": "Potato",
-            "quantity": 1,
-            "unit": "price(s)",
-            "art": "588798899"
-        },
-        {
-            "recipeId": 1,
-            "title": "Drill",
-            "quantity": 1,
-            "unit": "price(s)",
-            "art": "897897897"
+            "unit": "Tsp",
+            "art": "5456875"
         }
     ]
 }
 ```
+
 ### Database
 
 #### recipes
 
-| id  | name | category |
-| --- | ---- | -------- |
-| 1   | Pad Thai with Shrimp | noodle, main dish, ...
-| ... | ... | ... |
+| id  | name                 | category               |
+| --- | -------------------- | ---------------------- |
+| 1   | Pad Thai with Shrimp | noodle, main dish, ... |
+| ... | ...                  | ...                    |
 
 #### recipe_ingredients
 
-| recipeId  | title | quantity | unit | art |
-| --------- | ----- | -------- | ---- | --- |
-| 1 | rice noodle | 150 | g | 12348542
-| 1 | Shrimp | 50 | g | 45487545
-| 1 | Pad Thai sauce | 2 | Tsp | 5456875
-| ... | ... | ... | ... | ... |
+| recipeId | title          | quantity | unit | art      |
+| -------- | -------------- | -------- | ---- | -------- |
+| 1        | Rice noodle    | 150      | g    | 12348542 |
+| 1        | Shrimp         | 50       | g    | 4548754  |
+| 1        | Pad Thai sauce | 2        | Tsp  | 5456875  |
+| ...      | ...            | ...      | ...  | ...      |
+
+### Read
+
+```
+get /recipes
+```
+
+Get all the recipe on the database
+
+### Request body
+
+```
+-
+```
+
+### Result
+
+```
+"data": [
+        {
+            "id": 1,
+            "name": "Pad Thai with Shrimp",
+            "category": "noodle, main dish"
+        },
+        {
+            ...
+        }
+    ]
+```
+
+### Read
+
+```
+get /recipe/:id
+```
+
+Get the recipe by id
+
+### Request body
+
+```
+-
+```
+
+### Result
+
+```
+"data": {
+        "id": 1,
+        "name": "Pad Thai with Shrimp",
+        "category": "noodle, main dish"
+        "ingredients": [
+            {
+                "title": "Rice noodle",
+                "quantity": 150,
+                "unit": "g",
+                "art": "12348542"
+            },
+            {
+                "title": "Shrimp",
+                "quantity": 50,
+                "unit": "g",
+                "art": "4548754"
+            },
+            {
+                "title": "Pad Thai sauce",
+                "quantity": 2,
+                "unit": "Tsp",
+                "art": "5456875"
+            }
+        ]
+    }
+```
+
+### Update
+
+#### update recipe's name
+
+```
+patch /recipes/:id
+```
+
+Update the recipe by id \* Owner only
+
+### Request body
+
+```
+{
+    "name": "Pad Thai"
+}
+```
+
+### Update
+
+#### update recipes ingredients
+
+```
+patch /recipes/:id/ingredients
+```
+
+Update the recipes ingredients \* Owner only
+
+### Request body
+
+```
+{
+    "title": "Pad Thai sauce",
+    "quantity": 3,
+    "unit": "tps",
+    "art": "5456875"
+}
+```
+
+### Delete
+
+```
+delete /recipes/:id
+```
+
+### Request body
+
+```
+-
+```
