@@ -44,6 +44,7 @@ db.serialize(() => {
         "title"	TEXT,
         "quantity" NUMBER,
         "unit" TEXT,
+        "art" TEXT,
         FOREIGN KEY("recipeId") REFERENCES "recipes"("id")
     )`);
 });

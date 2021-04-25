@@ -26,11 +26,11 @@ function createRecipe(name, category) {
    });
 }
 
-function addIngredientsToRecipe(recipeId, title, quantity, unit) {
+function addIngredientsToRecipe(recipeId, title, quantity, unit, art) {
    return new Promise((resolve, reject) => {
       db.run(
-         `INSERT INTO recipe_ingredients(recipeId, title, quantity, unit) VALUES(?,?,?,?)`,
-         [recipeId, title, quantity, unit],
+         `INSERT INTO recipe_ingredients(recipeId, title, quantity, unit,art) VALUES(?,?,?,?,?)`,
+         [recipeId, title, quantity, unit, art],
          function (err) {
             if (err) {
                reject();
@@ -116,6 +116,22 @@ function updateRecipe(id, name) {
    });
 }
 
+function updateRecipeIngredients(recipeId, title, quantity, unit, art) {
+   return new Promise((resolve, reject) => {
+      db.run(
+         `UPDATE recipe_ingredients SET title = ?, quantity = ?, unit = ? WHERE recipeId = ? AND art = ?`,
+         [title, quantity, unit, recipeId, art],
+         function (err) {
+            if (err) {
+               reject();
+            } else {
+               resolve();
+            }
+         }
+      );
+   });
+}
+
 function deleteRecipe(id) {
    return new Promise((resolve, reject) => {
       db.run(`DELETE FROM recipes WHERE id = ?`, [id], function (err) {
@@ -146,5 +162,6 @@ module.exports = {
    listRecipeById,
    listAllRecipesByCategory,
    updateRecipe,
+   updateRecipeIngredients,
    deleteRecipe,
 };

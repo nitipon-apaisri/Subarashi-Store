@@ -1,3 +1,4 @@
+const { json } = require("express");
 const recipeModel = require("../models/recipeModel");
 
 const createRecipe = async (req, res) => {
@@ -11,8 +12,14 @@ const createRecipe = async (req, res) => {
       .catch(() => {
          console.log("Nah");
       });
-   for (x of ingredients) {
-      await recipeModel.addIngredientsToRecipe(x.recipeId, x.title, x.quantity, x.unit);
+   for (ingredient of ingredients) {
+      await recipeModel.addIngredientsToRecipe(
+         ingredient.recipeId,
+         ingredient.title,
+         ingredient.quantity,
+         ingredient.unit,
+         ingredient.art
+      );
    }
 };
 
@@ -35,11 +42,12 @@ const listRecipeById = async (req, res) => {
       .listRecipeIngredients(id)
       .then((rows) => {
          for (x in rows) {
-            let ingredientsObj = { title: "", quantity: 0, unit: "" };
+            let ingredientsObj = { title: "", quantity: 0, unit: "", art: "" };
             obj.ingredients.push(ingredientsObj);
             obj.ingredients[x].title = rows[x].title;
             obj.ingredients[x].quantity = rows[x].quantity;
             obj.ingredients[x].unit = rows[x].unit;
+            obj.ingredients[x].art = rows[x].art;
          }
       })
       .catch((err) => {
@@ -64,6 +72,19 @@ const updateRecipe = async (req, res) => {
    });
 };
 
+const updateRecipeIngredients = async (req, res) => {
+   let { id } = req.params;
+   let { title, quantity, unit, art } = req.body;
+   await recipeModel
+      .updateRecipeIngredients(id, title, quantity, unit, art)
+      .then(() => {
+         res.json({ message: "Updated" });
+      })
+      .catch(() => {
+         json.status(400).json({ message: "Invalid" });
+      });
+};
+
 const deleteRecipe = async (req, res) => {
    const { id } = req.params;
    await recipeModel
@@ -82,5 +103,6 @@ module.exports = {
    listAllRecipesByCategory,
    listRecipeById,
    updateRecipe,
+   updateRecipeIngredients,
    deleteRecipe,
 };
