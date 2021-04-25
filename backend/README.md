@@ -1,5 +1,12 @@
 # Subarashi Store 📦
 
+## How to
+
+```
+1. Clone or download the repository
+2. npm i both backend and frontend
+```
+
 ## EndPoint Register
 
 ### Create
