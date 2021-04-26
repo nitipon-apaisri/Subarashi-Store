@@ -1,17 +1,14 @@
 const { json } = require("express");
 const recipeModel = require("../models/recipeModel");
 
-const createRecipe = async (req, res) => {
+const createRecipe = async (req, res, next) => {
    const { name, ingredients, category } = req.body;
-   await recipeModel
-      .createRecipe(name, category)
-      .then((row) => {
-         // console.log(req.user);
-         res.json({ message: `Created ${name} recipe`, data: row });
-      })
-      .catch(() => {
-         console.log("Nah");
-      });
+   if (!name || !ingredients || !category) {
+      res.status(400).json({ message: "Invalid Body" });
+   }
+   await recipeModel.createRecipe(name, category).then((row) => {
+      res.json({ message: `Created ${name} recipe`, data: row });
+   });
    for (ingredient of ingredients) {
       await recipeModel.addIngredientsToRecipe(
          ingredient.recipeId,
@@ -31,7 +28,11 @@ const listAllRecipes = async (req, res) => {
 const listAllRecipesByCategory = async (req, res) => {
    const { category } = req.params;
    await recipeModel.listAllRecipes(category).then((rows) => {
-      res.json({ data: rows });
+      if (rows.length === 0) {
+         res.status(404).json({ message: `Not found any recipe for ${category}` });
+      } else {
+         res.json({ data: rows });
+      }
    });
 };
 
@@ -66,8 +67,8 @@ const listRecipeById = async (req, res) => {
 
 const updateRecipe = async (req, res) => {
    const { id } = req.params;
-   const { name } = req.body;
-   await recipeModel.updateRecipe(id, name).then((row) => {
+   const { name, category } = req.body;
+   await recipeModel.updateRecipe(id, name, category).then((row) => {
       res.json({ message: "Update success", latest: row });
    });
 };

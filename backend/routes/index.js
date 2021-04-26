@@ -12,15 +12,15 @@ router.post("/auth", userController.auth);
 router.get("/ingredients", ingredientsController.getAllIngredient);
 router.get("/ingredients/page/:page", ingredientsController.getAllIngredientByPage);
 //Endpoint recipes
+router.post("/recipes", authUser.userAuth, recipeController.createRecipe);
 router.get("/recipes", recipeController.listAllRecipes);
 router.get("/recipes/category/:category", recipeController.listAllRecipesByCategory);
-// router.post("/recipes", authUser.userAuth, recipeController.createRecipe);
-// router.get("/recipes/:id", authUser.userAuth, recipeController.listRecipeById);
-// router.patch("/recipes/:id", authUser.userAuth, recipeController.updateRecipe);
-// router.delete("/recipes/:id", authUser.userAuth, recipeController.deleteRecipe);
-router.post("/recipes", recipeController.createRecipe);
 router.get("/recipes/:id", recipeController.listRecipeById);
-router.patch("/recipes/:id", recipeController.updateRecipe);
-router.patch("/recipes/:id/ingredients", recipeController.updateRecipeIngredients);
-router.delete("/recipes/:id", recipeController.deleteRecipe);
+router.patch("/recipes/:id", authUser.userAuth, recipeController.updateRecipe);
+router.patch(
+   "/recipes/:id/ingredients",
+   authUser.userAuth,
+   recipeController.updateRecipeIngredients
+);
+router.delete("/recipes/:id", authUser.userAuth, recipeController.deleteRecipe);
 module.exports = router;

@@ -98,21 +98,25 @@ function listRecipeIngredients(id) {
    });
 }
 
-function updateRecipe(id, name) {
+function updateRecipe(id, name, category) {
    return new Promise((resolve, reject) => {
-      db.run(`UPDATE recipes SET name = ? WHERE id = ?`, [name, id], function (err) {
-         if (err) {
-            reject();
-         } else {
-            db.get(`SELECT * FROM recipes WHERE id = ?`, [id], function (err, row) {
-               if (err) {
-                  reject();
-               } else {
-                  resolve(row);
-               }
-            });
+      db.run(
+         `UPDATE recipes SET name = ? , category = ? WHERE id = ?`,
+         [name, category, id],
+         function (err) {
+            if (err) {
+               reject();
+            } else {
+               db.get(`SELECT * FROM recipes WHERE id = ?`, [id], function (err, row) {
+                  if (err) {
+                     reject();
+                  } else {
+                     resolve(row);
+                  }
+               });
+            }
          }
-      });
+      );
    });
 }
 
