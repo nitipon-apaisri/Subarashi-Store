@@ -21,20 +21,23 @@ const createRecipe = async (req, res, next) => {
 };
 
 const listAllRecipes = async (req, res) => {
-   recipeModel.listAllRecipes().then((rows) => {
-      res.json({ data: rows });
-   });
-};
-const listAllRecipesByCategory = async (req, res) => {
-   const { category } = req.params;
-   recipeModel.listAllRecipes(category).then((rows) => {
-      if (rows.length === 0) {
-         res.status(404).json({ message: `Not found any recipe for ${category}` });
-      } else {
+   const category = req.query.category;
+   console.log(category);
+   if (category === undefined) {
+      recipeModel.listAllRecipes().then((rows) => {
          res.json({ data: rows });
-      }
-   });
+      });
+   } else {
+      recipeModel.listAllRecipesByCategory(category).then((rows) => {
+         if (rows === undefined) {
+            res.status(404).json({ message: `Not found any recipe for ${category}` });
+         } else {
+            res.json({ data: rows });
+         }
+      });
+   }
 };
+const listAllRecipesByCategory = async (req, res) => {};
 
 const listRecipeById = async (req, res) => {
    let obj = { ingredients: [] };

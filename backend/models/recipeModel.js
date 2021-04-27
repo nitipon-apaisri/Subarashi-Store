@@ -68,7 +68,7 @@ function listRecipeById(id) {
 
 function listAllRecipesByCategory(category) {
    return new Promise((resolve, reject) => {
-      db.get(
+      db.all(
          `SELECT * FROM recipes WHERE category = ?`,
          [category],
          function (err, rows) {

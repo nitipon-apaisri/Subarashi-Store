@@ -10,11 +10,10 @@ router.post("/register", userController.register);
 router.post("/auth", userController.auth);
 //Endpoint ingredients
 router.get("/ingredients", ingredientsController.getAllIngredient);
-router.get("/ingredients/page/:page", ingredientsController.getAllIngredientByPage);
+// router.get("/ingredients/page/:page", ingredientsController.getAllIngredientByPage);
 //Endpoint recipes
 router.post("/recipes", authUser.userAuth, recipeController.createRecipe);
 router.get("/recipes", recipeController.listAllRecipes);
-router.get("/recipes/category/:category", recipeController.listAllRecipesByCategory);
 router.get("/recipes/:id", recipeController.listRecipeById);
 router.patch("/recipes/:id", authUser.userAuth, recipeController.updateRecipe);
 router.patch(

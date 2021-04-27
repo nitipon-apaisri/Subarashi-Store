@@ -225,6 +225,35 @@ Get all the recipe on the database
     ]
 ```
 
+### Read \* query params
+
+```
+get /recipes?category=soup
+```
+
+Get all the recipe by category on the database
+
+### Request body
+
+```
+-
+```
+
+### Result
+
+```
+"data": [
+        {
+            "id": 4,
+            "name": "The century soup",
+            "category": "soup"
+        },
+        {
+            ...
+        }
+    ]
+```
+
 ### Read
 
 ```
