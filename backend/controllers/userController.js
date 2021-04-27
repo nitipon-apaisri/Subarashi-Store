@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const register = async (req, res, next) => {
    const { username, password } = req.body;
    const hashing = bcrypt.hashSync(password, 10);
-   await userModel
+   userModel
       .register(username, hashing)
       .then((row) => {
          res.json({ data: row });
@@ -20,7 +20,7 @@ const auth = async (req, res) => {
    const { username, password } = req.body;
    const payload = { username: username };
    const token = jwt.sign(payload, "secret");
-   await userModel.auth(username, token).then((row) => {
+   userModel.auth(username, token).then((row) => {
       bcrypt.compare(password, row.password, function (err, response) {
          if (response === true) {
             res.json({ data: row });

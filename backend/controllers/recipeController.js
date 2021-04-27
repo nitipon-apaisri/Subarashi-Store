@@ -6,7 +6,7 @@ const createRecipe = async (req, res, next) => {
    if (!name || !ingredients || !category) {
       res.status(400).json({ message: "Invalid Body" });
    }
-   await recipeModel.createRecipe(name, category).then((row) => {
+   recipeModel.createRecipe(name, category).then((row) => {
       res.json({ message: `Created ${name} recipe`, data: row });
    });
    for (ingredient of ingredients) {
@@ -21,13 +21,13 @@ const createRecipe = async (req, res, next) => {
 };
 
 const listAllRecipes = async (req, res) => {
-   await recipeModel.listAllRecipes().then((rows) => {
+   recipeModel.listAllRecipes().then((rows) => {
       res.json({ data: rows });
    });
 };
 const listAllRecipesByCategory = async (req, res) => {
    const { category } = req.params;
-   await recipeModel.listAllRecipes(category).then((rows) => {
+   recipeModel.listAllRecipes(category).then((rows) => {
       if (rows.length === 0) {
          res.status(404).json({ message: `Not found any recipe for ${category}` });
       } else {
@@ -39,7 +39,7 @@ const listAllRecipesByCategory = async (req, res) => {
 const listRecipeById = async (req, res) => {
    let obj = { ingredients: [] };
    const { id } = req.params;
-   await recipeModel
+   recipeModel
       .listRecipeIngredients(id)
       .then((rows) => {
          for (x in rows) {
@@ -54,7 +54,7 @@ const listRecipeById = async (req, res) => {
       .catch((err) => {
          console.log(err);
       });
-   await recipeModel
+   recipeModel
       .listRecipeById(id)
       .then((row) => {
          Object.assign(row, obj);
@@ -68,7 +68,7 @@ const listRecipeById = async (req, res) => {
 const updateRecipe = async (req, res) => {
    const { id } = req.params;
    const { name, category } = req.body;
-   await recipeModel.updateRecipe(id, name, category).then((row) => {
+   recipeModel.updateRecipe(id, name, category).then((row) => {
       res.json({ message: "Update success", latest: row });
    });
 };
@@ -76,7 +76,7 @@ const updateRecipe = async (req, res) => {
 const updateRecipeIngredients = async (req, res) => {
    let { id } = req.params;
    let { title, quantity, unit, art } = req.body;
-   await recipeModel
+   recipeModel
       .updateRecipeIngredients(id, title, quantity, unit, art)
       .then(() => {
          res.json({ message: "Updated" });
@@ -88,7 +88,7 @@ const updateRecipeIngredients = async (req, res) => {
 
 const deleteRecipe = async (req, res) => {
    const { id } = req.params;
-   await recipeModel
+   recipeModel
       .deleteRecipe(id)
       .then(() => {
          res.json({ message: `Recipe id ${id} has been delete` });
