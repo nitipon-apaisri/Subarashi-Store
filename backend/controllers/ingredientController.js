@@ -10,19 +10,19 @@ const addIngredients = async (req, res) => {
 };
 
 const getAllIngredient = async (req, res) => {
-   ingredientsModel.getAllIngredient().then((rows) => {
-      res.json({ message: "Success", data: rows });
-   });
+   const page = req.query.page;
+   if (page === undefined) {
+      ingredientsModel.getAllIngredient().then((rows) => {
+         res.json({ message: "Success", data: rows });
+      });
+   } else {
+      ingredientsModel.getAllIngredientByPage(page).then((rows) => {
+         res.json({ message: "Success", data: rows });
+      });
+   }
 };
 
-const getAllIngredientByPage = async (req, res) => {
-   const { page } = req.params;
-   ingredientsModel.getAllIngredientByPage(page).then((rows) => {
-      res.json({ message: "Success", data: rows });
-   });
-};
 module.exports = {
    addIngredients,
    getAllIngredient,
-   getAllIngredientByPage,
 };

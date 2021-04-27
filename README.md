@@ -108,7 +108,7 @@ List all the ingredients on the database
 ### Read \* Query params
 
 ```
-get /ingredients/page/:page
+get /ingredients?page=1
 ```
 
 ### Request body

@@ -22,7 +22,6 @@ const createRecipe = async (req, res, next) => {
 
 const listAllRecipes = async (req, res) => {
    const category = req.query.category;
-   console.log(category);
    if (category === undefined) {
       recipeModel.listAllRecipes().then((rows) => {
          res.json({ data: rows });
@@ -37,7 +36,6 @@ const listAllRecipes = async (req, res) => {
       });
    }
 };
-const listAllRecipesByCategory = async (req, res) => {};
 
 const listRecipeById = async (req, res) => {
    let obj = { ingredients: [] };
@@ -104,7 +102,6 @@ const deleteRecipe = async (req, res) => {
 module.exports = {
    createRecipe,
    listAllRecipes,
-   listAllRecipesByCategory,
    listRecipeById,
    updateRecipe,
    updateRecipeIngredients,
